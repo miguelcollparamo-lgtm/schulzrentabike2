@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Schulz Rent A Bike — Cala Ratjada, Mallorca</title>
+<meta name="description" content="Alquiler de bicicletas, scooters y motos en Cala Ratjada, Mallorca. Empresa familiar Schulz & Junior con 35 años de experiencia."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+/* ============================================================
+   VARIABLES & RESET
+============================================================ */
+:root {
+  --sky:      #e8f4f8;
+  --sky2:     #c8e8f5;
+  --sea:      #2a7fa5;
+  --sea2:     #1a5f80;
+  --aqua:     #4ec9e1;
+  --aqua2:    #7cdde8;
+  --sand:     #f5e6c8;
+  --sand2:    #eeddb2;
+  --sand3:    #e8d49a;
+  --sun:      #f5a623;
+  --sun2:     #f7c44a;
+  --coral:    #e8614a;
+  --coral2:   #f07860;
+  --white:    #fffdf8;
+  --ink:      #1a2e3b;
+  --ink2:     #2d4a5e;
+  --ink3:     #4a6878;
+  --muted:    rgba(26,46,59,.55);
+  --r-sm:     12px;
+  --r-md:     20px;
+  --r-lg:     28px;
+  --r-xl:     40px;
+  --r-pill:   100px;
+  --shadow:   0 4px 32px rgba(42,127,165,.15);
+  --shadow2:  0 12px 56px rgba(42,127,165,.22);
+  --ff-d:     'Playfair Display', serif;
+  --ff-b:     'Nunito', sans-serif;
+  --ease:     cubic-bezier(0.22,1,0.36,1);
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html { scroll-behavior:smooth; font-size:16px }
+body { background:var(--white); color:var(--ink); font-family:var(--ff-b); font-weight:400; overflow-x:hidden; line-height:1.65 }
+img { display:block; max-width:100% }
+a { color:inherit; text-decoration:none }
+ul { list-style:none }
+button { cursor:pointer; font-family:var(--ff-b); border:none; background:none }
+
+/* ============================================================
+   NOISE GRAIN OVERLAY
+============================================================ */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:9000;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none; opacity:.35;
+}
+
+/* ============================================================
+   CURSOR
+============================================================ */
+#cur { position:fixed; top:0; left:0; z-index:9999; width:12px; height:12px; border-radius:50%; background:var(--coral); pointer-events:none; transform:translate(-50%,-50%); transition:width .18s var(--ease),height .18s var(--ease); mix-blend-mode:multiply }
+#cur-r { position:fixed; top:0; left:0; z-index:9998; width:40px; height:40px; border-radius:50%; border:1.5px solid rgba(78,201,225,.5); pointer-events:none; transform:translate(-50%,-50%) }
+
+/* ============================================================
+   NAVBAR
+============================================================ */
+#nav {
+  position:fixed; top:0; left:0; right:0; z-index:800;
+  padding:.85rem 4vw;
+  display:flex; align-items:center; justify-content:space-between;
+  transition:background .4s var(--ease), box-shadow .4s;
+}
+#nav.s {
+  background:rgba(255,253,248,.92);
+  backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+  box-shadow:0 2px 24px rgba(42,127,165,.1);
+}
+.n-logo { display:flex; flex-direction:column; line-height:1 }
+.n-logo strong { font-family:var(--ff-d); font-size:1.35rem; font-weight:900; color:var(--sea2); letter-spacing:-.02em }
+.n-logo strong em { font-style:italic; color:var(--coral) }
+.n-logo small { font-size:.58rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--ink3); margin-top:2px }
+.n-links { display:flex; gap:2rem; align-items:center }
+.n-links a { font-size:.82rem; font-weight:600; color:var(--ink2); letter-spacing:.04em; transition:color .2s }
+.n-links a:hover { color:var(--sea) }
+.n-cta { background:var(--coral)!important; color:#fff!important; padding:10px 24px; border-radius:var(--r-pill); font-weight:700; font-size:.82rem!important; box-shadow:0 4px 16px rgba(232,97,74,.38); transition:transform .2s var(--ease),box-shadow .2s!important }
+.n-cta:hover { transform:translateY(-2px) scale(1.04); box-shadow:0 8px 28px rgba(232,97,74,.48) }
+.n-ham { display:none; flex-direction:column; gap:5px; padding:6px }
+.n-ham span { display:block; width:22px; height:2px; background:var(--sea2); border-radius:2px; transition:.3s var(--ease) }
+#mob { position:fixed; inset:0; z-index:790; background:rgba(255,253,248,.97); backdrop-filter:blur(20px); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2.5rem; transform:translateY(-100%); transition:transform .5s var(--ease) }
+#mob.on { transform:translateY(0) }
+#mob a { font-family:var(--ff-d); font-size:2.2rem; font-weight:700; font-style:italic; color:var(--ink2); transition:color .2s }
+#mob a:hover { color:var(--coral) }
+
+/* ============================================================
+   WAVE DIVIDERS
+============================================================ */
+.wave { width:100%; overflow:hidden; line-height:0; display:block }
+.wave svg { display:block; width:100% }
+
+/* ============================================================
+   BUTTONS
+============================================================ */
+.btn { display:inline-flex; align-items:center; gap:9px; padding:14px 32px; border-radius:var(--r-pill); font-family:var(--ff-b); font-weight:700; font-size:.9rem; transition:transform .25s var(--ease), box-shadow .25s; cursor:pointer }
+.btn:hover { transform:translateY(-3px) }
+.btn-coral { background:var(--coral); color:#fff; box-shadow:0 6px 24px rgba(232,97,74,.4) }
+.btn-coral:hover { box-shadow:0 12px 36px rgba(232,97,74,.5) }
+.btn-sea { background:var(--sea); color:#fff; box-shadow:0 6px 24px rgba(42,127,165,.35) }
+.btn-sea:hover { box-shadow:0 12px 36px rgba(42,127,165,.45) }
+.btn-outline { background:rgba(255,255,255,.7); color:var(--sea2); border:2px solid rgba(42,127,165,.25); backdrop-filter:blur(8px) }
+.btn-outline:hover { background:#fff; border-color:var(--sea) }
+
+/* ============================================================
+   HERO
+============================================================ */
+#hero {
+  position:relative; min-height:100vh;
+  background:linear-gradient(175deg, #b8e8f5 0%, #7dd4ed 30%, #4ec9e1 55%, #29a0c5 80%, #1a7599 100%);
+  display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden;
+}
+/* sun */
+.sun-orb {
+  position:absolute; top:-60px; right:8%;
+  width:340px; height:340px; border-radius:50%;
+  background:radial-gradient(circle at 40% 40%, #ffe066, #f5a623 55%, rgba(245,166,35,0) 75%);
+  animation:sunPulse 6s ease-in-out infinite;
+}
+@keyframes sunPulse {
+  0%,100%{ box-shadow:0 0 0 0 rgba(255,224,102,.0),0 0 80px 40px rgba(245,166,35,.25) }
+  50%{ box-shadow:0 0 0 40px rgba(255,224,102,.08),0 0 120px 60px rgba(245,166,35,.35) }
+}
+/* light rays */
+.rays {
+  position:absolute; top:-60px; right:calc(8% + 100px);
+  width:900px; height:900px;
+  background:conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(255,230,80,.06) 8deg, transparent 16deg, rgba(255,230,80,.04) 26deg, transparent 32deg, rgba(255,230,80,.07) 42deg, transparent 50deg, rgba(255,230,80,.03) 62deg, transparent 68deg, rgba(255,230,80,.05) 80deg, transparent 88deg, rgba(255,230,80,.06) 96deg, transparent 104deg, rgba(255,230,80,.04) 118deg, transparent 128deg, transparent 360deg);
+  transform-origin:50% 50%; animation:spin 60s linear infinite; pointer-events:none; mix-blend-mode:screen;
+}
+@keyframes spin { to{ transform:rotate(360deg) } }
+/* clouds */
+.cloud { position:absolute; border-radius:var(--r-pill); background:rgba(255,255,255,.65); filter:blur(2px) }
+.c1 { width:180px; height:50px; top:12%; left:8%; animation:drift 18s ease-in-out infinite }
+.c2 { width:120px; height:35px; top:20%; left:22%; animation:drift 22s ease-in-out infinite reverse; opacity:.5 }
+.c3 { width:90px; height:28px; top:8%; left:55%; animation:drift 16s ease-in-out infinite 3s; opacity:.4 }
+@keyframes drift { 0%,100%{ transform:translateX(0) } 50%{ transform:translateX(22px) } }
+/* water shimmer */
+.shimmer {
+  position:absolute; bottom:140px; left:0; right:0; height:160px;
+  background:linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.12) 40%, rgba(255,255,255,.06) 100%);
+  animation:shimmer 4s ease-in-out infinite;
+}
+@keyframes shimmer { 0%,100%{ opacity:.6 } 50%{ opacity:1 } }
+/* sand bottom */
+.hero-sand {
+  position:absolute; bottom:0; left:0; right:0; height:160px;
+  background:linear-gradient(180deg, rgba(245,230,200,0) 0%, #f0deb0 60%, #e8d49a 100%);
+}
+/* palm silhouette */
+.palm-l,.palm-r { position:absolute; bottom:0; opacity:.18; pointer-events:none }
+.palm-l { left:-20px; bottom:100px }
+.palm-r { right:-30px; bottom:80px; transform:scaleX(-1) }
+/* hero content */
+.h-cnt {
+  position:relative; z-index:10; padding:0 4vw 5rem;
+  max-width:700px;
+}
+.h-eyebrow {
+  display:inline-flex; align-items:center; gap:10px;
+  background:rgba(255,255,255,.3); backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.5); border-radius:var(--r-pill);
+  padding:6px 18px; font-size:.73rem; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:#fff; margin-bottom:1.6rem;
+  opacity:0; transform:translateY(20px);
+}
+.h-eyebrow .dot { width:6px; height:6px; border-radius:50%; background:#ffe066; animation:pu 2s ease infinite }
+@keyframes pu { 0%,100%{ box-shadow:0 0 0 0 rgba(255,224,102,.5) } 50%{ box-shadow:0 0 0 5px rgba(255,224,102,0) } }
+.h-title {
+  font-family:var(--ff-d); font-size:clamp(3rem,7vw,6.5rem);
+  font-weight:900; font-style:italic; line-height:.95; letter-spacing:-.02em;
+  color:#fff; text-shadow:0 4px 40px rgba(0,80,130,.25);
+  margin-bottom:1.2rem; opacity:0; transform:translateY(30px);
+}
+.h-title .line2 { font-style:normal; color:#ffe066; display:block }
+.h-sub {
+  font-size:clamp(1rem,1.5vw,1.18rem); color:rgba(255,255,255,.92);
+  font-weight:400; max-width:480px; margin-bottom:2.5rem;
+  opacity:0; transform:translateY(20px);
+}
+.h-acts { display:flex; gap:1rem; flex-wrap:wrap; opacity:0; transform:translateY(20px) }
+/* floating cards */
+.h-float {
+  position:absolute; z-index:10;
+  background:rgba(255,255,255,.88); backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.9); border-radius:var(--r-lg);
+  padding:14px 20px; box-shadow:0 8px 32px rgba(42,127,165,.2);
+  opacity:0;
+}
+.hf1 { top:28%; right:5%; opacity:0; transform:translateX(30px) }
+.hf2 { top:52%; right:14%; opacity:0; transform:translateX(25px) }
+.hf3 { top:70%; right:5%; opacity:0; transform:translateX(30px) }
+.hf-label { font-size:.62rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--sea); margin-bottom:.2rem }
+.hf-val { font-family:var(--ff-d); font-size:1.4rem; font-weight:900; color:var(--ink); line-height:1 }
+.hf-val span { font-size:.72rem; font-weight:600; color:var(--ink3); font-family:var(--ff-b); font-style:normal }
+.hf-sub { font-size:.7rem; color:var(--ink3); margin-top:2px }
+/* scroll hint */
+.h-scroll {
+  position:absolute; bottom:9rem; left:4vw; z-index:10;
+  display:flex; align-items:center; gap:10px;
+  font-size:.68rem; font-weight:600; letter-spacing:.15em; text-transform:uppercase;
+  color:rgba(255,255,255,.7); opacity:0;
+}
+.scroll-icon {
+  width:26px; height:42px; border-radius:14px; border:2px solid rgba(255,255,255,.5);
+  display:flex; align-items:flex-start; justify-content:center; padding-top:6px;
+}
+.scroll-dot { width:4px; height:8px; border-radius:2px; background:rgba(255,255,255,.8); animation:scrollAnim 2s ease infinite }
+@keyframes scrollAnim { 0%{ transform:translateY(0);opacity:1 } 100%{ transform:translateY(14px);opacity:0 } }
+/* hero wave bottom */
+.hero-wave { position:absolute; bottom:-2px; left:0; right:0; z-index:10 }
+
+/* ============================================================
+   MARQUEE STRIP
+============================================================ */
+.mq-strip {
+  background:var(--sea); padding:.9rem 0; overflow:hidden;
+  position:relative; z-index:5;
+}
+.mq-strip::before,.mq-strip::after {
+  content:''; position:absolute; top:0; bottom:0; width:80px; z-index:2;
+}
+.mq-strip::before { left:0; background:linear-gradient(to right, var(--sea), transparent) }
+.mq-strip::after { right:0; background:linear-gradient(to left, var(--sea), transparent) }
+.mq-t { display:flex; gap:0; animation:mq 25s linear infinite; width:max-content; white-space:nowrap }
+.mq-item { display:flex; align-items:center; gap:1rem; padding:0 2rem; font-size:.75rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.85) }
+.mq-sep { width:5px; height:5px; border-radius:50%; background:var(--aqua2); flex-shrink:0 }
+@keyframes mq { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ============================================================
+   SECTION UTILITIES
+============================================================ */
+.sw { max-width:1240px; margin:0 auto; padding:0 4vw }
+.s-tag {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:.7rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--sea); margin-bottom:.7rem;
+}
+.s-tag::before { content:''; display:block; width:20px; height:2px; background:var(--coral); border-radius:2px }
+.s-title { font-family:var(--ff-d); font-size:clamp(2rem,3.8vw,3.2rem); font-weight:900; font-style:italic; letter-spacing:-.02em; color:var(--ink); line-height:1.06 }
+.s-title em { font-style:normal; color:var(--sea) }
+.s-sub { margin-top:.75rem; color:var(--ink3); font-size:1rem; max-width:520px; font-weight:400 }
+.rv { opacity:0; transform:translateY(36px) }
+.rv-l { opacity:0; transform:translateX(-36px) }
+.rv-r { opacity:0; transform:translateX(36px) }
+.rv-s { opacity:0; transform:scale(.94) }
+
+/* ============================================================
+   FLEET SECTION
+============================================================ */
+#fleet { padding:7rem 0 4rem; background:var(--white) }
+.tabs { display:flex; gap:.6rem; flex-wrap:wrap; margin-bottom:2.5rem }
+.tab {
+  padding:9px 22px; border-radius:var(--r-pill); font-size:.78rem; font-weight:700;
+  border:2px solid transparent; color:var(--ink3); background:rgba(42,127,165,.07);
+  transition:.22s var(--ease); letter-spacing:.03em; cursor:pointer;
+}
+.tab:hover { background:rgba(42,127,165,.14); color:var(--sea) }
+.tab.on { background:var(--sea); color:#fff; box-shadow:0 4px 16px rgba(42,127,165,.35) }
+
+/* Vehicle cards */
+.fg { display:grid; grid-template-columns:repeat(auto-fill,minmax(285px,1fr)); gap:1.5rem }
+.vc {
+  background:#fff; border-radius:var(--r-lg);
+  border:1.5px solid rgba(42,127,165,.1);
+  overflow:hidden; transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .3s;
+  position:relative;
+}
+.vc:hover { transform:translateY(-10px); box-shadow:var(--shadow2); border-color:rgba(78,201,225,.45) }
+.vc-iw { overflow:hidden; position:relative }
+.vc-img { width:100%; height:195px; object-fit:cover; transition:transform .65s var(--ease) }
+.vc:hover .vc-img { transform:scale(1.07) }
+.vc-badge {
+  position:absolute; top:.8rem; left:.8rem;
+  padding:4px 12px; border-radius:var(--r-pill); font-size:.63rem; font-weight:800;
+  letter-spacing:.07em; text-transform:uppercase;
+}
+.badge-sun { background:#ffe066; color:#7a4a00 }
+.badge-sea { background:var(--sea); color:#fff }
+.badge-coral { background:var(--coral); color:#fff }
+.vc-b { padding:1.4rem }
+.vc-cat { font-size:.62rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--aqua); margin-bottom:.3rem }
+.vc-name { font-family:var(--ff-d); font-size:1.1rem; font-weight:700; font-style:italic; margin-bottom:.75rem; color:var(--ink) }
+.vc-specs { display:flex; gap:.7rem; flex-wrap:wrap; margin-bottom:.9rem }
+.sp {
+  font-size:.72rem; font-weight:600; color:var(--sea2);
+  background:rgba(78,201,225,.1); padding:3px 10px; border-radius:var(--r-pill);
+}
+.vc-px {
+  background:linear-gradient(135deg, rgba(42,127,165,.06), rgba(78,201,225,.06));
+  border:1px solid rgba(42,127,165,.1);
+  border-radius:var(--r-md); padding:1rem; margin-bottom:1rem;
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:.4rem;
+}
+.px-c { text-align:center }
+.px-l { font-size:.58rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink3); margin-bottom:.25rem }
+.px-v { font-family:var(--ff-d); font-weight:900; font-size:.9rem; color:var(--ink) }
+.px-v.main { color:var(--sea); font-size:1.1rem }
+.vc-btn {
+  display:flex; align-items:center; justify-content:center; gap:7px;
+  width:100%; padding:11px; border-radius:var(--r-md);
+  background:linear-gradient(135deg, var(--sea), var(--aqua));
+  color:#fff; font-size:.82rem; font-weight:700; transition:transform .2s var(--ease),box-shadow .2s;
+  box-shadow:0 4px 16px rgba(42,127,165,.3); cursor:pointer;
+}
+.vc-btn:hover { transform:scale(1.03); box-shadow:0 8px 24px rgba(42,127,165,.45) }
+
+/* Price table */
+.pt-wrap { margin-top:4rem; overflow-x:auto }
+.pt { width:100%; border-collapse:collapse; font-size:.84rem }
+.pt th {
+  font-family:var(--ff-b); font-weight:800; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase;
+  color:#fff; padding:.85rem 1.1rem; text-align:left; background:var(--sea);
+}
+.pt th:first-child { border-radius:var(--r-sm) 0 0 0 }
+.pt th:last-child { border-radius:0 var(--r-sm) 0 0 }
+.pt th:not(:first-child) { text-align:center }
+.pt td { padding:.8rem 1.1rem; border-bottom:1.5px solid rgba(42,127,165,.07); color:var(--ink3); transition:background .15s }
+.pt tr:hover td { background:rgba(78,201,225,.06) }
+.pt td:not(:first-child) { text-align:center; font-family:var(--ff-d); font-weight:700; font-style:italic; color:var(--ink) }
+.pt td:first-child { font-weight:500 }
+.c-sea { color:var(--sea)!important }
+.c-na { color:rgba(42,127,165,.3)!important; font-weight:400!important; font-style:normal!important }
+.pt-cat td {
+  background:linear-gradient(135deg, rgba(78,201,225,.12), rgba(42,127,165,.06))!important;
+  color:var(--sea)!important; font-family:var(--ff-b)!important; font-weight:800!important;
+  font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; padding:.55rem 1.1rem!important;
+  font-style:normal!important;
+}
+
+/* ============================================================
+   WHY / ABOUT
+============================================================ */
+#why {
+  padding:8rem 0;
+  background:linear-gradient(160deg, #f0f9fc 0%, #e4f3f8 40%, #d8edf5 100%);
+  position:relative; overflow:hidden;
+}
+#why::before {
+  content:''; position:absolute; top:-200px; right:-200px;
+  width:600px; height:600px; border-radius:50%;
+  background:radial-gradient(circle, rgba(78,201,225,.12), transparent 70%);
+  pointer-events:none;
+}
+.why-g { display:grid; grid-template-columns:1fr 1fr; gap:4.5rem; align-items:center }
+.why-vis {
+  position:relative; border-radius:var(--r-xl); overflow:hidden;
+  aspect-ratio:4/5; box-shadow:var(--shadow2);
+}
+.why-vis img { width:100%; height:100%; object-fit:cover }
+.why-vis::after { content:''; position:absolute; inset:0; background:linear-gradient(to top, rgba(26,46,59,.55) 0%, transparent 55%) }
+.why-stats { position:absolute; bottom:0; left:0; right:0; z-index:2; display:flex; padding:1.8rem 1.5rem }
+.why-stat { flex:1; text-align:center; padding:0 .5rem; border-right:1px solid rgba(255,255,255,.2) }
+.why-stat:last-child { border-right:none }
+.stat-n { font-family:var(--ff-d); font-size:2rem; font-weight:900; color:#ffe066; line-height:1; text-shadow:0 2px 12px rgba(0,0,0,.3) }
+.stat-l { font-size:.68rem; font-weight:600; color:rgba(255,255,255,.8); margin-top:3px }
+/* decorative frame on image */
+.why-vis-frame {
+  position:absolute; top:-15px; left:-15px; right:15px; bottom:15px;
+  border:2px solid rgba(78,201,225,.4); border-radius:var(--r-xl); z-index:-1;
+  pointer-events:none;
+}
+.why-feats { display:flex; flex-direction:column; gap:1rem }
+.wf {
+  display:flex; gap:1rem; padding:1.3rem 1.5rem;
+  background:#fff; border:1.5px solid rgba(42,127,165,.1);
+  border-radius:var(--r-lg); box-shadow:0 2px 16px rgba(42,127,165,.07);
+  transition:border-color .22s, transform .3s var(--ease), box-shadow .25s;
+}
+.wf:hover { border-color:rgba(78,201,225,.5); transform:translateX(8px); box-shadow:0 6px 24px rgba(42,127,165,.14) }
+.wf-ico { width:46px; height:46px; flex-shrink:0; border-radius:var(--r-md); background:linear-gradient(135deg,rgba(78,201,225,.18),rgba(42,127,165,.12)); display:flex; align-items:center; justify-content:center; font-size:1.3rem }
+.wf-t { font-family:var(--ff-d); font-weight:700; font-style:italic; font-size:.98rem; margin-bottom:.2rem; color:var(--ink) }
+.wf-d { font-size:.83rem; color:var(--ink3) }
+
+/* ============================================================
+   ROUTES
+============================================================ */
+#routes { padding:8rem 0; background:var(--white) }
+.rg { display:grid; grid-template-columns:repeat(3,1fr); gap:1.3rem; margin-top:2.8rem }
+.rc {
+  position:relative; border-radius:var(--r-lg); overflow:hidden;
+  aspect-ratio:3/4; box-shadow:0 6px 28px rgba(42,127,165,.15);
+}
+.rc img { width:100%; height:100%; object-fit:cover; transition:transform .65s var(--ease) }
+.rc:hover img { transform:scale(1.07) }
+.rc::after { content:''; position:absolute; inset:0; background:linear-gradient(to top, rgba(26,46,59,.82) 35%, rgba(26,46,59,.05) 75%) }
+.rc-i { position:absolute; bottom:0; left:0; right:0; z-index:2; padding:1.6rem 1.5rem }
+.rc-lbl { font-size:.62rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--aqua2); margin-bottom:.3rem }
+.rc-name { font-family:var(--ff-d); font-size:1.25rem; font-weight:900; font-style:italic; color:#fff; margin-bottom:.3rem }
+.rc-meta { font-size:.74rem; color:rgba(255,255,255,.7); font-weight:400 }
+.diff {
+  display:inline-block; margin-top:.55rem; padding:3px 12px;
+  border-radius:var(--r-pill); font-size:.62rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+}
+.diff.e { background:rgba(74,222,128,.22); color:#2da867; border:1px solid rgba(74,222,128,.35) }
+.diff.m { background:rgba(245,166,35,.22); color:#c07a00; border:1px solid rgba(245,166,35,.35) }
+.diff.h { background:rgba(232,97,74,.22); color:#c0280a; border:1px solid rgba(232,97,74,.35) }
+/* map */
+.map-box {
+  margin-top:3.5rem; border-radius:var(--r-xl);
+  overflow:hidden; box-shadow:var(--shadow2); position:relative;
+  border:2px solid rgba(78,201,225,.2);
+}
+.map-box iframe { width:100%; height:400px; display:block; filter:saturate(1.15) brightness(1.05) }
+.map-lbl {
+  position:absolute; top:1.2rem; left:1.2rem; z-index:2;
+  background:rgba(255,253,248,.92); backdrop-filter:blur(12px);
+  border:1.5px solid rgba(42,127,165,.2); border-radius:var(--r-pill);
+  padding:8px 18px; font-size:.73rem; font-weight:700; color:var(--sea2);
+  display:flex; align-items:center; gap:7px;
+}
+
+/* ============================================================
+   OFFICES
+============================================================ */
+#offices {
+  padding:7rem 0;
+  background:linear-gradient(160deg, #fffdf4 0%, #fef5e0 60%, #fdf0d0 100%);
+  position:relative; overflow:hidden;
+}
+#offices::before {
+  content:''; position:absolute; bottom:-150px; left:-100px;
+  width:500px; height:500px; border-radius:50%;
+  background:radial-gradient(circle, rgba(245,166,35,.1), transparent 70%);
+  pointer-events:none;
+}
+.og { display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; margin-top:2.8rem }
+.oc {
+  background:#fff; border:1.5px solid rgba(245,166,35,.2);
+  border-radius:var(--r-xl); padding:2rem; position:relative; overflow:hidden;
+  box-shadow:0 4px 24px rgba(245,166,35,.1);
+  transition:transform .3s var(--ease), box-shadow .3s, border-color .3s;
+}
+.oc:hover { transform:translateY(-8px); box-shadow:0 16px 48px rgba(245,166,35,.2); border-color:rgba(245,166,35,.45) }
+.oc::before {
+  content:''; position:absolute; top:-40px; right:-40px;
+  width:130px; height:130px; border-radius:50%;
+  background:radial-gradient(circle, rgba(245,230,200,.7), transparent 70%);
+  pointer-events:none;
+}
+.oc-n { font-family:var(--ff-d); font-size:4rem; font-weight:900; font-style:italic; color:rgba(245,166,35,.18); line-height:1; margin-bottom:.8rem }
+.oc-name { font-family:var(--ff-d); font-weight:700; font-style:italic; font-size:1.1rem; color:var(--ink); margin-bottom:.5rem }
+.oc-addr { font-size:.84rem; color:var(--ink3); line-height:1.6 }
+.oc-tag { display:flex; align-items:center; gap:6px; margin-top:.9rem; font-size:.75rem; font-weight:700; color:var(--sun) }
+
+/* ============================================================
+   TESTIMONIALS
+============================================================ */
+#testi {
+  padding:8rem 0;
+  background:linear-gradient(160deg, #e4f3f8 0%, #d0eaf5 50%, #c4e3f2 100%);
+  overflow:hidden; position:relative;
+}
+.ts-ow { overflow:hidden; margin-top:2.8rem }
+.ts-tr { display:flex; gap:1.4rem; will-change:transform }
+.tc {
+  background:#fff; border-radius:var(--r-xl); padding:2rem;
+  min-width:320px; flex-shrink:0; position:relative; overflow:hidden;
+  box-shadow:0 4px 24px rgba(42,127,165,.1);
+  border:1.5px solid rgba(42,127,165,.1);
+}
+.tc::before {
+  content:'"'; position:absolute; top:.5rem; right:1.5rem;
+  font-family:var(--ff-d); font-size:5rem; line-height:1;
+  color:rgba(78,201,225,.15); pointer-events:none; font-style:italic;
+}
+.tc-stars { color:var(--sun); font-size:.9rem; margin-bottom:.8rem; letter-spacing:2px }
+.tc-text { font-size:.9rem; line-height:1.75; color:var(--ink3); margin-bottom:1.4rem; font-weight:400 }
+.tc-au { display:flex; align-items:center; gap:.8rem }
+.tc-av { width:42px; height:42px; border-radius:50%; object-fit:cover; border:2.5px solid rgba(78,201,225,.4) }
+.tc-nm { font-family:var(--ff-d); font-weight:700; font-style:italic; font-size:.9rem; color:var(--ink) }
+.tc-fr { font-size:.72rem; color:var(--ink3); font-weight:500 }
+.ts-nav { display:flex; gap:.6rem; margin-top:2rem }
+.ts-dot { width:28px; height:5px; border-radius:3px; background:rgba(42,127,165,.15); transition:background .3s,width .3s; cursor:default }
+.ts-dot.on { background:var(--sea); width:44px }
+
+/* ============================================================
+   CTA BANNER
+============================================================ */
+#cta {
+  padding:8rem 0; position:relative; overflow:hidden;
+  background:linear-gradient(135deg, #1a5f80 0%, #2a7fa5 40%, #29a0c5 70%, #4ec9e1 100%);
+}
+#cta::before {
+  content:''; position:absolute; top:-200px; left:50%; transform:translateX(-50%);
+  width:800px; height:800px; border-radius:50%;
+  background:radial-gradient(circle, rgba(255,224,102,.12), transparent 65%);
+  pointer-events:none;
+}
+.cta-inner { text-align:center; position:relative; z-index:2 }
+.cta-badge {
+  display:inline-block; background:rgba(255,224,102,.18); color:#ffe066;
+  border:1.5px solid rgba(255,224,102,.3); padding:6px 20px; border-radius:var(--r-pill);
+  font-size:.7rem; font-weight:800; letter-spacing:.18em; text-transform:uppercase;
+  margin-bottom:1.5rem;
+}
+.cta-title {
+  font-family:var(--ff-d); font-size:clamp(2.2rem,5vw,4.2rem);
+  font-weight:900; font-style:italic; color:#fff;
+  text-shadow:0 4px 24px rgba(0,60,100,.25); margin-bottom:1rem; line-height:1.05;
+}
+.cta-sub { color:rgba(255,255,255,.85); font-size:1.05rem; max-width:440px; margin:0 auto 2.4rem; font-weight:400 }
+.cta-tels { display:flex; gap:2.5rem; justify-content:center; flex-wrap:wrap; margin-top:2rem }
+.cta-tel { display:flex; align-items:center; gap:.6rem; font-size:.9rem; color:rgba(255,255,255,.85) }
+.cta-tel strong { color:#fff; font-weight:700 }
+/* wave bottom */
+.cta-wave { position:absolute; bottom:-2px; left:0; right:0 }
+
+/* ============================================================
+   CONTACT
+============================================================ */
+#contact { padding:8rem 0; background:var(--white) }
+.ct-g { display:grid; grid-template-columns:1fr 1.5fr; gap:5rem; align-items:start }
+.ci { display:flex; gap:.95rem; align-items:flex-start; margin-bottom:1.6rem }
+.ci-ic {
+  width:44px; height:44px; flex-shrink:0; border-radius:var(--r-md);
+  background:linear-gradient(135deg, rgba(78,201,225,.18), rgba(42,127,165,.1));
+  display:flex; align-items:center; justify-content:center; font-size:1.05rem;
+}
+.ci-l { font-size:.67rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink3) }
+.ci-v { font-weight:500; margin-top:2px; color:var(--ink); font-size:.93rem }
+.ci-v a { color:var(--sea); transition:color .2s }
+.ci-v a:hover { color:var(--coral) }
+.off-mini {
+  background:linear-gradient(135deg, rgba(78,201,225,.08), rgba(42,127,165,.04));
+  border:1.5px solid rgba(42,127,165,.12);
+  border-radius:var(--r-lg); padding:1.4rem 1.6rem; margin-bottom:1.6rem;
+}
+.off-mini h4 { font-family:var(--ff-d); font-weight:700; font-style:italic; font-size:.92rem; margin-bottom:.9rem; color:var(--sea) }
+.off-mini li { font-size:.82rem; color:var(--ink3); padding:.42rem 0; border-bottom:1px solid rgba(42,127,165,.1); display:flex; gap:.65rem; font-weight:500 }
+.off-mini li:last-child { border-bottom:none }
+.off-mini li::before { content:'📍'; font-size:.75rem; flex-shrink:0; margin-top:1px }
+/* form */
+.ff { margin-bottom:1rem }
+.fl { display:block; font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink3); margin-bottom:.42rem }
+.fi,.fsl,.fta {
+  width:100%; background:#fff; border:1.5px solid rgba(42,127,165,.15);
+  border-radius:var(--r-md); padding:12px 16px; color:var(--ink);
+  font-family:var(--ff-b); font-size:.9rem; outline:none;
+  transition:border-color .2s, box-shadow .2s; -webkit-appearance:none; appearance:none;
+}
+.fi::placeholder,.fta::placeholder { color:rgba(42,127,165,.35) }
+.fi:focus,.fsl:focus,.fta:focus { border-color:var(--aqua); box-shadow:0 0 0 3px rgba(78,201,225,.18) }
+.fta { resize:vertical; min-height:108px }
+.frow { display:grid; grid-template-columns:1fr 1fr; gap:1rem }
+.fsl option { background:#fff; color:var(--ink) }
+.soc-row { display:flex; gap:.75rem; flex-wrap:wrap; margin-top:1.2rem }
+
+/* ============================================================
+   FOOTER
+============================================================ */
+footer {
+  background:var(--sea2); color:rgba(255,255,255,.8);
+  padding:5rem 4vw 2rem;
+}
+.ft-g {
+  max-width:1240px; margin:0 auto;
+  display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem;
+  padding-bottom:3rem; border-bottom:1px solid rgba(255,255,255,.12);
+}
+.ft-brand .lg { font-family:var(--ff-d); font-size:1.3rem; font-weight:900; font-style:italic; color:#fff; margin-bottom:.8rem }
+.ft-brand .lg em { color:#ffe066 }
+.ft-brand p { font-size:.83rem; line-height:1.7; color:rgba(255,255,255,.65); max-width:230px }
+.ft-soc { display:flex; gap:.6rem; margin-top:1.2rem }
+.sb {
+  width:36px; height:36px; border-radius:50%; border:1.5px solid rgba(255,255,255,.25);
+  display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,.65);
+  transition:border-color .2s, color .2s, background .2s;
+}
+.sb:hover { border-color:rgba(255,224,102,.5); color:#ffe066; background:rgba(255,224,102,.1) }
+.ft-col h4 { font-family:var(--ff-d); font-weight:700; font-style:italic; font-size:.92rem; color:#fff; margin-bottom:1rem }
+.ft-col ul { display:flex; flex-direction:column; gap:.65rem }
+.ft-col ul a { font-size:.82rem; color:rgba(255,255,255,.6); transition:color .2s; font-weight:500 }
+.ft-col ul a:hover { color:#fff }
+.ft-bot { max-width:1240px; margin:2rem auto 0; display:flex; align-items:center; justify-content:space-between; font-size:.74rem; color:rgba(255,255,255,.45); flex-wrap:wrap; gap:.8rem }
+.lgs { display:flex; gap:.5rem; margin-top:1.3rem }
+.lg2 { padding:5px 13px; border-radius:var(--r-pill); font-size:.7rem; font-weight:700; border:1.5px solid rgba(255,255,255,.2); color:rgba(255,255,255,.55); transition:.2s; cursor:pointer }
+.lg2:hover,.lg2.on { border-color:rgba(255,224,102,.5); color:#ffe066 }
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media(max-width:1060px){
+  .why-g{grid-template-columns:1fr}
+  .why-vis{aspect-ratio:16/9;max-height:420px}
+  .rg{grid-template-columns:repeat(2,1fr)}
+  .ct-g{grid-template-columns:1fr}
+  .ft-g{grid-template-columns:1fr 1fr}
+  .og{grid-template-columns:1fr 1fr}
+  .hf2,.hf3{display:none}
+}
+@media(max-width:720px){
+  .n-links{display:none}
+  .n-ham{display:flex}
+  .rg{grid-template-columns:1fr}
+  .frow{grid-template-columns:1fr}
+  .ft-g{grid-template-columns:1fr;gap:2rem}
+  .og{grid-template-columns:1fr}
+  #cur,#cur-r{display:none}
+  body,button,a,input,select,textarea{cursor:auto}
+  .hf1,.hf2,.hf3{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-r"></div>
+
+<!-- MOBILE MENU -->
+<div id="mob">
+  <a href="#fleet"   onclick="closeM()">Flota</a>
+  <a href="#why"     onclick="closeM()">Nosotros</a>
+  <a href="#routes"  onclick="closeM()">Rutas</a>
+  <a href="#offices" onclick="closeM()">Tiendas</a>
+  <a href="#contact" onclick="closeM()" style="color:var(--coral)">Reservar</a>
+</div>
+
+<!-- ========== NAVBAR ========== -->
+<nav id="nav">
+  <a href="#" class="n-logo">
+    <strong>Schulz<em>.</em>Rent A Bike</strong>
+    <small>Cala Ratjada · Mallorca</small>
+  </a>
+  <ul class="n-links">
+    <li><a href="#fleet">Flota</a></li>
+    <li><a href="#why">Nosotros</a></li>
+    <li><a href="#routes">Rutas</a></li>
+    <li><a href="#offices">Tiendas</a></li>
+    <li><a href="#contact" class="n-cta">Reservar ahora</a></li>
+  </ul>
+  <button class="n-ham" id="ham" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section id="hero">
+  <!-- atmosphere -->
+  <div class="sun-orb"></div>
+  <div class="rays"></div>
+  <div class="cloud c1"></div>
+  <div class="cloud c2"></div>
+  <div class="cloud c3"></div>
+  <div class="shimmer"></div>
+  <div class="hero-sand"></div>
+
+  <!-- floating price pills -->
+  <div class="h-float hf1" id="hf1">
+    <div class="hf-label">Bici ciudad</div>
+    <div class="hf-val">6€ <span>/ día</span></div>
+    <div class="hf-sub">Hercules 7 Gang</div>
+  </div>
+  <div class="h-float hf2" id="hf2">
+    <div class="hf-label">Vespa GTS 125</div>
+    <div class="hf-val">40€ <span>/ día</span></div>
+    <div class="hf-sub">Carnet A1/B</div>
+  </div>
+  <div class="h-float hf3" id="hf3">
+    <div class="hf-label">E-Bike Orbea</div>
+    <div class="hf-val">15€ <span>/ día</span></div>
+    <div class="hf-sub">Desde 400Wh</div>
+  </div>
+
+  <!-- content -->
+  <div class="h-cnt">
+    <div class="h-eyebrow" id="hEy"><span class="dot"></span>Cala Ratjada · Mallorca · Empresa familiar</div>
+    <h1 class="h-title" id="hTit">
+      Mallorca te espera.<br/>
+      <span class="line2">¿Cómo la exploras?</span>
+    </h1>
+    <p class="h-sub" id="hSub">
+      35 años haciendo que las vacaciones sean perfectas. Bicis, scooters y motos de calidad — recogida en 3 tiendas en Cala Ratjada.
+    </p>
+    <div class="h-acts" id="hActs">
+      <a href="#fleet" class="btn btn-coral">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Ver flota completa
+      </a>
+      <a href="#contact" class="btn btn-outline">Reservar ahora</a>
+    </div>
+  </div>
+
+  <div class="h-scroll" id="hScr">
+    <div class="scroll-icon"><div class="scroll-dot"></div></div>
+    Descubre
+  </div>
+
+  <!-- hero wave bottom -->
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 90" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,45 C240,90 480,0 720,45 C960,90 1200,0 1440,45 L1440,90 L0,90 Z" fill="#fffdf8"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ========== MARQUEE ========== -->
+<div class="mq-strip">
+  <div class="mq-t">
+    <span class="mq-item"><span class="mq-sep"></span>Bicicleta ciudad desde 6€/día</span>
+    <span class="mq-item"><span class="mq-sep"></span>Trek MTB desde 8€/día</span>
+    <span class="mq-item"><span class="mq-sep"></span>E-Bike Orbea desde 15€/día</span>
+    <span class="mq-item"><span class="mq-sep"></span>Vespa 125 desde 40€/día</span>
+    <span class="mq-item"><span class="mq-sep"></span>Yamaha MT 125 desde 40€/día</span>
+    <span class="mq-item"><span class="mq-sep"></span>Beverly 300 desde 50€/día</span>
+    <span class="mq-item"><span class="mq-sep"></span>Aprilia RSV4 1000 · 200€/día</span>
+    <span class="mq-item"><span class="mq-sep"></span>3 tiendas en Cala Ratjada</span>
+    <span class="mq-item"><span class="mq-sep"></span>35 años de experiencia</span>
+    <!-- repeat -->
+    <span class="mq-item"><span class="mq-sep"></span>Bicicleta ciudad desde 6€/día</span>
+    <span class="mq-item"><span class="mq-sep"></span>Trek MTB desde 8€/día</span>
+    <span class="mq-item"><span class="mq-sep"></span>E-Bike Orbea desde 15€/día</span>
+    <span class="mq-item"><span class="mq-sep"></span>Vespa 125 desde 40€/día</span>
+    <span class="mq-item"><span class="mq-sep"></span>Yamaha MT 125 desde 40€/día</span>
+    <span class="mq-item"><span class="mq-sep"></span>Beverly 300 desde 50€/día</span>
+    <span class="mq-item"><span class="mq-sep"></span>Aprilia RSV4 1000 · 200€/día</span>
+    <span class="mq-item"><span class="mq-sep"></span>3 tiendas en Cala Ratjada</span>
+    <span class="mq-item"><span class="mq-sep"></span>35 años de experiencia</span>
+  </div>
+</div>
+
+<!-- ========== FLEET ========== -->
+<section id="fleet">
+  <div class="sw">
+    <div class="s-hd rv" style="margin-bottom:2.8rem">
+      <span class="s-tag">Nuestra flota</span>
+      <h2 class="s-title">Elige tu compañero<br/><em>de aventura</em></h2>
+      <p class="s-sub">Desde bicicletas de ciudad hasta superbikes. Todo revisado, todo listo para que tú solo pienses en disfrutar.</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" data-cat="all">☀️ Todos</button>
+      <button class="tab" data-cat="ciudad">🚲 Bici Ciudad</button>
+      <button class="tab" data-cat="mtb">🚵 MTB</button>
+      <button class="tab" data-cat="carrera">🏁 Carrera</button>
+      <button class="tab" data-cat="ebike">⚡ E-Bikes</button>
+      <button class="tab" data-cat="scooter">🛵 Scooters</button>
+      <button class="tab" data-cat="moto">🏍️ Motos</button>
+    </div>
+
+    <div class="fg" id="fg">
+
+      <!-- CIUDAD -->
+      <div class="vc" data-cat="ciudad">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1502744688674-c619d1586c9e?w=600&q=80" alt="Hercules 7 Gang" loading="lazy"/></div>
+        <div class="vc-b">
+          <div class="vc-cat">Bicicleta Ciudad</div><div class="vc-name">Hercules 7 Gang</div>
+          <div class="vc-specs"><span class="sp">7 velocidades</span><span class="sp">Ciudad · Paseo</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">1 día</div><div class="px-v main">6€</div></div>
+            <div class="px-c"><div class="px-l">3 días</div><div class="px-v">18€</div></div>
+            <div class="px-c"><div class="px-l">7 días</div><div class="px-v">35€</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar esta bici →</a>
+        </div>
+      </div>
+
+      <div class="vc" data-cat="ciudad">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&q=80" alt="Orbea Comfort 22" loading="lazy"/></div>
+        <div class="vc-b">
+          <div class="vc-cat">Bicicleta Ciudad</div><div class="vc-name">Orbea Comfort 22</div>
+          <div class="vc-specs"><span class="sp">22 velocidades</span><span class="sp">Confort</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">1 día</div><div class="px-v main">8€</div></div>
+            <div class="px-c"><div class="px-l">3 días</div><div class="px-v">consultar</div></div>
+            <div class="px-c"><div class="px-l">7 días</div><div class="px-v">consultar</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar esta bici →</a>
+        </div>
+      </div>
+
+      <!-- MTB -->
+      <div class="vc" data-cat="mtb">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1571333250630-f0230c320b6d?w=600&q=80" alt="Trek Marlin 6" loading="lazy"/><span class="vc-badge badge-sun">⭐ Popular</span></div>
+        <div class="vc-b">
+          <div class="vc-cat">MTB</div><div class="vc-name">Trek Marlin 6</div>
+          <div class="vc-specs"><span class="sp">21 velocidades</span><span class="sp">Trail</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">1 día</div><div class="px-v main">8€</div></div>
+            <div class="px-c"><div class="px-l">3 días</div><div class="px-v">21€</div></div>
+            <div class="px-c"><div class="px-l">7 días</div><div class="px-v">45€</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar →</a>
+        </div>
+      </div>
+
+      <div class="vc" data-cat="mtb">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1544191696-102dbdaeeaa0?w=600&q=80" alt="Trek Marlin 7" loading="lazy"/></div>
+        <div class="vc-b">
+          <div class="vc-cat">MTB</div><div class="vc-name">Trek Marlin 7</div>
+          <div class="vc-specs"><span class="sp">27 velocidades</span><span class="sp">Trail / Enduro</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">1 día</div><div class="px-v main">10€</div></div>
+            <div class="px-c"><div class="px-l">3 días</div><div class="px-v">27€</div></div>
+            <div class="px-c"><div class="px-l">7 días</div><div class="px-v">consultar</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar →</a>
+        </div>
+      </div>
+
+      <div class="vc" data-cat="mtb">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1558618047-f4e90e8a48de?w=600&q=80" alt="Trek Elite 8.5/8.6" loading="lazy"/><span class="vc-badge badge-sea">Top</span></div>
+        <div class="vc-b">
+          <div class="vc-cat">MTB Premium</div><div class="vc-name">Trek Elite 8.5 / 8.6</div>
+          <div class="vc-specs"><span class="sp">29" aluminio</span><span class="sp">XC / Trail</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">1 día</div><div class="px-v main">12€</div></div>
+            <div class="px-c"><div class="px-l">3 días</div><div class="px-v">33€</div></div>
+            <div class="px-c"><div class="px-l">7 días</div><div class="px-v">73€</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar →</a>
+        </div>
+      </div>
+
+      <div class="vc" data-cat="mtb">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1576435728678-68d0fbf94946?w=600&q=80" alt="Trek X-Caliber" loading="lazy"/></div>
+        <div class="vc-b">
+          <div class="vc-cat">MTB XC</div><div class="vc-name">Trek X-Caliber 7 / 8</div>
+          <div class="vc-specs"><span class="sp">29" XC Performance</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">X-Cal 7</div><div class="px-v main">15€</div></div>
+            <div class="px-c"><div class="px-l">X-Cal 8</div><div class="px-v">20€</div></div>
+            <div class="px-c"><div class="px-l">por día</div><div class="px-v">—</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar →</a>
+        </div>
+      </div>
+
+      <!-- CARRERA -->
+      <div class="vc" data-cat="carrera">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=600&q=80" alt="Orbea Occam" loading="lazy"/><span class="vc-badge badge-coral">Racing</span></div>
+        <div class="vc-b">
+          <div class="vc-cat">Bici de Carrera</div><div class="vc-name">Orbea Occam</div>
+          <div class="vc-specs"><span class="sp">Full suspension</span><span class="sp">Cross-country</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">1 día</div><div class="px-v main">32€</div></div>
+            <div class="px-c"><div class="px-l">3 días</div><div class="px-v">81€</div></div>
+            <div class="px-c"><div class="px-l">7 días</div><div class="px-v">168€</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar →</a>
+        </div>
+      </div>
+
+      <!-- E-BIKES -->
+      <div class="vc" data-cat="ebike">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1623227866882-c005c26dfe41?w=600&q=80" alt="Orbea Optima 400Wh" loading="lazy"/><span class="vc-badge badge-sea">⚡ E-Bike</span></div>
+        <div class="vc-b">
+          <div class="vc-cat">Bici Eléctrica</div><div class="vc-name">Orbea Optima 400Wh</div>
+          <div class="vc-specs"><span class="sp">Motor 250W</span><span class="sp">~60km</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">1 día</div><div class="px-v main">15€</div></div>
+            <div class="px-c"><div class="px-l">3 días</div><div class="px-v">consultar</div></div>
+            <div class="px-c"><div class="px-l">7 días</div><div class="px-v">consultar</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar →</a>
+        </div>
+      </div>
+
+      <div class="vc" data-cat="ebike">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=600&q=80" alt="Orbea Optima 500Wh" loading="lazy"/><span class="vc-badge badge-sea">⚡ E-Bike</span></div>
+        <div class="vc-b">
+          <div class="vc-cat">Bici Eléctrica</div><div class="vc-name">Orbea Optima 500Wh</div>
+          <div class="vc-specs"><span class="sp">Motor 250W</span><span class="sp">~80km</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">1 día</div><div class="px-v main">20€</div></div>
+            <div class="px-c"><div class="px-l">3 días</div><div class="px-v">consultar</div></div>
+            <div class="px-c"><div class="px-l">7 días</div><div class="px-v">consultar</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar →</a>
+        </div>
+      </div>
+
+      <div class="vc" data-cat="ebike">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1526406915894-7bcd65f60845?w=600&q=80" alt="Haibike Nine / Orbea Keram" loading="lazy"/><span class="vc-badge badge-sea">Premium</span></div>
+        <div class="vc-b">
+          <div class="vc-cat">E-Bike Premium</div><div class="vc-name">Haibike Nine 2.0 / Orbea Keram 500Wh</div>
+          <div class="vc-specs"><span class="sp">Motor Bosch</span><span class="sp">~100km</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">1 día</div><div class="px-v main">30€</div></div>
+            <div class="px-c"><div class="px-l">3 días</div><div class="px-v">consultar</div></div>
+            <div class="px-c"><div class="px-l">7 días</div><div class="px-v">consultar</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar →</a>
+        </div>
+      </div>
+
+      <!-- SCOOTERS -->
+      <div class="vc" data-cat="scooter">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Derbi Variant 50" loading="lazy"/></div>
+        <div class="vc-b">
+          <div class="vc-cat">Scooter 50cc</div><div class="vc-name">Derbi Variant 50</div>
+          <div class="vc-specs"><span class="sp">Carnet B/AM</span><span class="sp">Automático</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">1 día</div><div class="px-v main">30€</div></div>
+            <div class="px-c"><div class="px-l">3 días</div><div class="px-v">consultar</div></div>
+            <div class="px-c"><div class="px-l">7 días</div><div class="px-v">consultar</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar →</a>
+        </div>
+      </div>
+
+      <div class="vc" data-cat="scooter">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?w=600&q=80" alt="Vespa Sprint / GTS 125" loading="lazy"/><span class="vc-badge badge-sun">🍋 Icono</span></div>
+        <div class="vc-b">
+          <div class="vc-cat">Scooter 125cc</div><div class="vc-name">Piaggio Vespa Sprint / GTS 125</div>
+          <div class="vc-specs"><span class="sp">Carnet A1/B</span><span class="sp">Automático</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">1 día</div><div class="px-v main">40€</div></div>
+            <div class="px-c"><div class="px-l">3 días</div><div class="px-v">consultar</div></div>
+            <div class="px-c"><div class="px-l">7 días</div><div class="px-v">consultar</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar →</a>
+        </div>
+      </div>
+
+      <div class="vc" data-cat="scooter">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1558618047-f4e90e8a48de?w=600&q=80" alt="Piaggio Beverly 300" loading="lazy"/><span class="vc-badge badge-sun">Popular</span></div>
+        <div class="vc-b">
+          <div class="vc-cat">Maxi-Scooter 300cc</div><div class="vc-name">Piaggio Beverly 300</div>
+          <div class="vc-specs"><span class="sp">Carnet A2/B</span><span class="sp">2 personas</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">1 día</div><div class="px-v main">50€</div></div>
+            <div class="px-c"><div class="px-l">3 días</div><div class="px-v">140€</div></div>
+            <div class="px-c"><div class="px-l">7 días</div><div class="px-v">300€</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar →</a>
+        </div>
+      </div>
+
+      <!-- MOTOS -->
+      <div class="vc" data-cat="moto">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=600&q=80" alt="Yamaha MT 125" loading="lazy"/></div>
+        <div class="vc-b">
+          <div class="vc-cat">Moto 125cc</div><div class="vc-name">Yamaha MT 125</div>
+          <div class="vc-specs"><span class="sp">Carnet A1/B</span><span class="sp">15CV</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">1 día</div><div class="px-v main">40€</div></div>
+            <div class="px-c"><div class="px-l">3 días</div><div class="px-v">110€</div></div>
+            <div class="px-c"><div class="px-l">7 días</div><div class="px-v">235€</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar →</a>
+        </div>
+      </div>
+
+      <div class="vc" data-cat="moto">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=600&q=80" alt="Aprilia Tuono 125" loading="lazy"/></div>
+        <div class="vc-b">
+          <div class="vc-cat">Moto 125cc</div><div class="vc-name">Aprilia Tuono 125</div>
+          <div class="vc-specs"><span class="sp">Carnet A1/B</span><span class="sp">Sport Naked</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">1 día</div><div class="px-v main">60€</div></div>
+            <div class="px-c"><div class="px-l">3 días</div><div class="px-v">160€</div></div>
+            <div class="px-c"><div class="px-l">7 días</div><div class="px-v">350€</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar →</a>
+        </div>
+      </div>
+
+      <div class="vc" data-cat="moto">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1558618047-f4e90e8a48de?w=600&q=80" alt="Suzuki V-Strom XT 650" loading="lazy"/><span class="vc-badge badge-sea">Adventure</span></div>
+        <div class="vc-b">
+          <div class="vc-cat">Adventure 650cc</div><div class="vc-name">Suzuki V-Strom XT 650</div>
+          <div class="vc-specs"><span class="sp">Carnet A</span><span class="sp">71CV</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">1 día</div><div class="px-v main">65€</div></div>
+            <div class="px-c"><div class="px-l">3 días</div><div class="px-v">190€</div></div>
+            <div class="px-c"><div class="px-l">7 días</div><div class="px-v">consultar</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar →</a>
+        </div>
+      </div>
+
+      <div class="vc" data-cat="moto">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&q=80" alt="Moto Guzzi V7 Café Racer" loading="lazy"/><span class="vc-badge badge-coral">Clásica</span></div>
+        <div class="vc-b">
+          <div class="vc-cat">Clásica 750cc</div><div class="vc-name">Moto Guzzi V7 Café Racer</div>
+          <div class="vc-specs"><span class="sp">Carnet A</span><span class="sp">V2 bicilíndrico</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">1 día</div><div class="px-v main">120€</div></div>
+            <div class="px-c"><div class="px-l">3 días</div><div class="px-v">consultar</div></div>
+            <div class="px-c"><div class="px-l">7 días</div><div class="px-v">consultar</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar →</a>
+        </div>
+      </div>
+
+      <div class="vc" data-cat="moto">
+        <div class="vc-iw"><img class="vc-img" src="https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?w=600&q=80" alt="Aprilia RSV4 1000" loading="lazy"/><span class="vc-badge badge-coral">Superbike</span></div>
+        <div class="vc-b">
+          <div class="vc-cat">Superbike 1000cc</div><div class="vc-name">Aprilia RSV4 1000</div>
+          <div class="vc-specs"><span class="sp">Carnet A</span><span class="sp">201CV</span></div>
+          <div class="vc-px">
+            <div class="px-c"><div class="px-l">1 día</div><div class="px-v main">200€</div></div>
+            <div class="px-c"><div class="px-l">3 días</div><div class="px-v">consultar</div></div>
+            <div class="px-c"><div class="px-l">7 días</div><div class="px-v">consultar</div></div>
+          </div>
+          <a href="#contact" class="vc-btn">Reservar →</a>
+        </div>
+      </div>
+
+    </div><!-- /fg -->
+
+    <!-- FULL PRICE TABLE -->
+    <div class="pt-wrap rv" style="margin-top:5rem">
+      <div style="margin-bottom:1.8rem">
+        <span class="s-tag">Todos los precios</span>
+        <h3 class="s-title" style="font-size:1.9rem">Tarifas completas <em>2024</em></h3>
+      </div>
+      <table class="pt">
+        <thead><tr><th>Modelo</th><th>1 día</th><th>3 días</th><th>7 días</th></tr></thead>
+        <tbody>
+          <tr class="pt-cat"><td colspan="4">🚲 Bicicletas de Ciudad</td></tr>
+          <tr><td>Hercules 7 Gang</td><td class="c-sea">6€</td><td>18€</td><td>35€</td></tr>
+          <tr><td>Orbea Comfort 22</td><td class="c-sea">8€</td><td class="c-na">—</td><td class="c-na">—</td></tr>
+          <tr class="pt-cat"><td colspan="4">🚵 Bicicletas de Montaña</td></tr>
+          <tr><td>Trek 4900 / 6300</td><td class="c-sea">8€</td><td class="c-na">—</td><td class="c-na">—</td></tr>
+          <tr><td>Trek Marlin 6</td><td class="c-sea">8€</td><td>21€</td><td>45€</td></tr>
+          <tr><td>Trek Marlin 7</td><td class="c-sea">10€</td><td>27€</td><td class="c-na">—</td></tr>
+          <tr><td>Trek Elite 8.5 / 8.6</td><td class="c-sea">12€</td><td>33€</td><td>73€</td></tr>
+          <tr><td>Trek X-Caliber 7</td><td class="c-sea">15€</td><td class="c-na">—</td><td class="c-na">—</td></tr>
+          <tr><td>Trek X-Caliber 8</td><td class="c-sea">20€</td><td class="c-na">—</td><td class="c-na">—</td></tr>
+          <tr><td>Trek Fuel EX5</td><td class="c-sea">20€</td><td class="c-na">—</td><td class="c-na">—</td></tr>
+          <tr><td>Orbea MX10 / MX30</td><td class="c-sea">10–12€</td><td class="c-na">—</td><td class="c-na">—</td></tr>
+          <tr><td>Orbea Alma H30</td><td class="c-sea">12€</td><td class="c-na">—</td><td class="c-na">—</td></tr>
+          <tr class="pt-cat"><td colspan="4">🏁 Bicicleta de Carreras</td></tr>
+          <tr><td>Orbea Occam</td><td class="c-sea">32€</td><td>81€</td><td>168€</td></tr>
+          <tr class="pt-cat"><td colspan="4">⚡ Bicicletas Eléctricas</td></tr>
+          <tr><td>Orbea Optima 400Wh</td><td class="c-sea">desde 15€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Orbea Optima 500Wh</td><td class="c-sea">desde 20€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Haibike Nine 2.0 400Wh</td><td class="c-sea">desde 30€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Orbea Keram 500Wh</td><td class="c-sea">desde 30€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr class="pt-cat"><td colspan="4">🛵 Scooters</td></tr>
+          <tr><td>Derbi Variant 50</td><td class="c-sea">30€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Aprilia SR 50 R</td><td class="c-sea">40€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Aprilia SR Motard 125</td><td class="c-sea">35€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Aprilia Compay 125</td><td class="c-sea">consultar</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Piaggio Medley 125</td><td class="c-sea">desde 40€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Piaggio X Evo 125</td><td class="c-sea">50€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Piaggio Vespa Sprint 125</td><td class="c-sea">desde 40€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Piaggio Vespa GTS 125</td><td class="c-sea">desde 40€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Suzuki Burgman 200</td><td class="c-sea">40€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Piaggio Beverly 300</td><td class="c-sea">50€</td><td>140€</td><td>300€</td></tr>
+          <tr><td>Piaggio X10 350</td><td class="c-sea">50€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Suzuki Burgman 400</td><td class="c-sea">50€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Gilera Fuoco 500</td><td class="c-sea">50€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr class="pt-cat"><td colspan="4">🏍️ Motos</td></tr>
+          <tr><td>Yamaha MT 125</td><td class="c-sea">40€</td><td>110€</td><td>235€</td></tr>
+          <tr><td>Aprilia RS4 125</td><td class="c-sea">50€</td><td>140€</td><td>300€</td></tr>
+          <tr><td>Aprilia Tuono 125</td><td class="c-sea">60€</td><td>160€</td><td>350€</td></tr>
+          <tr><td>Suzuki V-Strom 250</td><td class="c-sea">consultar</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Kawasaki Z300</td><td class="c-sea">50€</td><td>140€</td><td>300€</td></tr>
+          <tr><td>Suzuki V-Strom XT 650</td><td class="c-sea">65€</td><td>190€</td><td class="c-na">consultar</td></tr>
+          <tr><td>Aprilia Shiver 750</td><td class="c-sea">90€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Aprilia Dorsoduro 750</td><td class="c-sea">90€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Moto Guzzi V7 Café Racer 750</td><td class="c-sea">120€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Suzuki Intruder M800</td><td class="c-sea">consultar</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Aprilia Caponord Travel Pack 1200</td><td class="c-sea">120€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+          <tr><td>Aprilia RSV4 1000</td><td class="c-sea">200€</td><td class="c-na">consultar</td><td class="c-na">consultar</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- wave transition -->
+<div class="wave" style="margin-top:-2px;background:white">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#e4f3f8"/>
+  </svg>
+</div>
+
+<!-- ========== WHY ========== -->
+<section id="why">
+  <div class="sw">
+    <div class="why-g">
+      <div style="position:relative" class="rv-l">
+        <div class="why-vis-frame"></div>
+        <div class="why-vis">
+          <img src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=900&q=80" alt="Mallorca en moto" loading="lazy"/>
+          <div class="why-stats">
+            <div class="why-stat"><div class="stat-n">35+</div><div class="stat-l">Años experiencia</div></div>
+            <div class="why-stat"><div class="stat-n">3</div><div class="stat-l">Tiendas en Cala Ratjada</div></div>
+            <div class="why-stat"><div class="stat-n">4.9★</div><div class="stat-l">Valoración clientes</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="rv-r">
+        <div style="margin-bottom:2.5rem">
+          <span class="s-tag">Schulz &amp; Junior</span>
+          <h2 class="s-title">Empresa familiar,<br/><em>35 años</em> de historia.</h2>
+          <p class="s-sub">Llevamos más de 35 años haciendo que las vacaciones en Mallorca sean perfectas. Sabemos lo que necesitas para disfrutar de la isla sin preocupaciones.</p>
+        </div>
+        <div class="why-feats">
+          <div class="wf"><div class="wf-ic">🔧</div><div><div class="wf-t">Flota siempre revisada</div><div class="wf-d">Gran experiencia en mantenimiento de vehículos. Fiabilidad garantizada para que solo pienses en pedalear.</div></div></div>
+          <div class="wf"><div class="wf-ic">🗺️</div><div><div class="wf-t">Consejos de locales</div><div class="wf-d">Te orientamos sobre las mejores playas, calas y rutas secretas de Mallorca. Mapa impreso gratis.</div></div></div>
+          <div class="wf"><div class="wf-ic">👨‍👩‍👧</div><div><div class="wf-t">Para toda la familia</div><div class="wf-d">Cochecitos de bebé, triciclos, bicicletas infantiles y patinetes. ¡Nadie se queda sin ruedas!</div></div></div>
+          <div class="wf"><div class="wf-ic">📍</div><div><div class="wf-t">3 puntos de recogida</div><div class="wf-d">Cala Agulla, Centro (Live Cars) y Son Moll. Siempre cerca de tu hotel o apartamento.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- wave transition -->
+<div class="wave" style="background:#e4f3f8">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px">
+    <path d="M0,20 C360,60 720,0 1080,40 C1260,55 1380,10 1440,20 L1440,60 L0,60 Z" fill="white"/>
+  </svg>
+</div>
+
+<!-- ========== ROUTES ========== -->
+<section id="routes">
+  <div class="sw">
+    <div class="s-hd rv" style="margin-bottom:2.8rem">
+      <span class="s-tag">Rutas Mallorca</span>
+      <h2 class="s-title">Cada curva es una<br/><em>postal de verano</em></h2>
+      <p class="s-sub">Desde Cala Ratjada tienes toda la isla a tu alcance. Te damos el mapa gratis y te contamos los secretos de cada ruta.</p>
+    </div>
+    <div class="rg">
+      <div class="rc rv">
+        <img src="https://images.unsplash.com/photo-1600002415506-dd06090d3480?w=700&q=80" alt="Vuelta al Sur" loading="lazy"/>
+        <div class="rc-i">
+          <div class="rc-lbl">Ruta clásica · ~180 km circular</div>
+          <div class="rc-name">Vuelta al Sur</div>
+          <div class="rc-meta">Cala Ratjada → Cala Millor → Campos → Llucmajor → Andratx → Valldemossa → regreso</div>
+          <span class="diff m">Dificultad media</span>
+        </div>
+      </div>
+      <div class="rc rv">
+        <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=700&q=80" alt="Serra Tramuntana" loading="lazy"/>
+        <div class="rc-i">
+          <div class="rc-lbl">Norte · ~120 km</div>
+          <div class="rc-name">Serra de Tramuntana</div>
+          <div class="rc-meta">Cala Ratjada → Alcúdia → Pollença → Lluc → Sóller → Valldemossa</div>
+          <span class="diff h">Dificultad alta</span>
+        </div>
+      </div>
+      <div class="rc rv">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=80" alt="Calas del Este" loading="lazy"/>
+        <div class="rc-i">
+          <div class="rc-lbl">Calas del este · ~60 km</div>
+          <div class="rc-name">Calas de Artà</div>
+          <div class="rc-meta">Cala Ratjada → Cala Mesquida → Cala Torta → Cala Mondragó</div>
+          <span class="diff e">Fácil · Para todos</span>
+        </div>
+      </div>
+    </div>
+    <div class="map-box rv">
+      <div class="map-lbl">
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Ruta circular sur de Mallorca
+      </div>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m53!1m8!1m3!1d786294.0397027498!2d3.2634329!3d39.6618413!3m2!1i1024!2i768!4f13.1!4m42!1i0!3e0!4m3!3m2!1d39.7009001!2d3.4219199!4m3!3m2!1d39.7704824!2d3.1401516!4m3!3m2!1d39.7723295!2d3.0302883!4m3!3m2!1d39.8843852!2d3.0227352!4m3!3m2!1d39.8206609!2d2.8927408!4m3!3m2!1d39.851110299999995!2d2.8006873!4m3!3m2!1d39.7786415!2d2.7045504!4m3!3m2!1d39.6972813!2d2.6971960999999998!4m3!3m2!1d39.7334621!2d2.7655173!4m3!3m2!1d39.6960956!2d3.3999729!5e0!3m2!1ses!2ses!4v1417982292391" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Rutas Mallorca"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- wave transition -->
+<div class="wave" style="background:white">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px">
+    <path d="M0,40 C480,0 960,60 1440,20 L1440,60 L0,60 Z" fill="#fffdf4"/>
+  </svg>
+</div>
+
+<!-- ========== OFFICES ========== -->
+<section id="offices">
+  <div class="sw">
+    <div class="s-hd rv" style="margin-bottom:2.8rem">
+      <span class="s-tag">Dónde encontrarnos</span>
+      <h2 class="s-title">Tres tiendas,<br/>una sola <em>pasión</em></h2>
+      <p class="s-sub">Todas situadas muy cerca de las principales zonas hoteleras de Cala Ratjada. ¡Seguro que tienes una al lado!</p>
+    </div>
+    <div class="og">
+      <div class="oc rv"><div class="oc-n">01</div><div class="oc-name">Cala Agulla</div><div class="oc-addr">Avda. Cala Agulla, 86<br/>07590 Cala Ratjada, Mallorca</div><div class="oc-tag">🌴 Junto a la playa de Cala Agulla</div></div>
+      <div class="oc rv"><div class="oc-n">02</div><div class="oc-name">Centro · Live Cars</div><div class="oc-addr">Calle Nereida, 29<br/>07590 Cala Ratjada, Mallorca</div><div class="oc-tag">🏖️ Centro de Cala Ratjada</div></div>
+      <div class="oc rv"><div class="oc-n">03</div><div class="oc-name">Son Moll</div><div class="oc-addr">Avda. Cala Agulla, 61<br/>07590 Cala Ratjada, Mallorca</div><div class="oc-tag">🌅 Zona Son Moll</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- wave transition -->
+<div class="wave" style="background:#fffdf4">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px">
+    <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z" fill="#d0eaf5"/>
+  </svg>
+</div>
+
+<!-- ========== TESTIMONIALS ========== -->
+<section id="testi">
+  <div class="sw">
+    <div class="s-hd rv" style="margin-bottom:2.8rem">
+      <span class="s-tag">Opiniones reales</span>
+      <h2 class="s-title">Ellos ya vivieron<br/><em>la experiencia</em></h2>
+    </div>
+    <div class="ts-ow">
+      <div class="ts-tr" id="tst">
+        <div class="tc"><div class="tc-stars">★★★★★</div><p class="tc-text">"Llevamos años alquilando aquí cada verano. Las bicis Trek siempre en perfecto estado, y el equipo nos da los mejores consejos para descubrir rincones que no encontrarías solo."</p><div class="tc-au"><img class="tc-av" src="https://i.pravatar.cc/80?img=32" alt="María G."/><div><div class="tc-nm">María G.</div><div class="tc-fr">Madrid, España 🇪🇸</div></div></div></div>
+        <div class="tc"><div class="tc-stars">★★★★★</div><p class="tc-text">"Super Service! Die Motorräder waren in einwandfreiem Zustand. Besonders beeindruckt hat uns die persönliche Beratung zu Routen durch die Tramuntana. Absolut empfehlenswert!"</p><div class="tc-au"><img class="tc-av" src="https://i.pravatar.cc/80?img=52" alt="Klaus M."/><div><div class="tc-nm">Klaus M.</div><div class="tc-fr">München, Deutschland 🇩🇪</div></div></div></div>
+        <div class="tc"><div class="tc-stars">★★★★★</div><p class="tc-text">"Rented the Kawasaki Z300 for 3 days. Spotless bike, great price, and the owner printed us a custom route map. The Moto Guzzi V7 is on our list for next year!"</p><div class="tc-au"><img class="tc-av" src="https://i.pravatar.cc/80?img=47" alt="James T."/><div><div class="tc-nm">James T.</div><div class="tc-fr">London, UK 🇬🇧</div></div></div></div>
+        <div class="tc"><div class="tc-stars">★★★★★</div><p class="tc-text">"La e-bike Haibike fue perfecta para el norte de la isla. Con 100km de autonomía llegamos a Formentor y de vuelta sin problema. Precio muy razonable para la calidad."</p><div class="tc-au"><img class="tc-av" src="https://i.pravatar.cc/80?img=25" alt="Carlos R."/><div><div class="tc-nm">Carlos R.</div><div class="tc-fr">Barcelona, España 🇪🇸</div></div></div></div>
+        <div class="tc"><div class="tc-stars">★★★★★</div><p class="tc-text">"Fantastische Familie! Zwei Vespas für eine Woche — beste Entscheidung unseres Urlaubs. Danke für die Tipps zu den versteckten Calas. Bis nächsten Sommer!"</p><div class="tc-au"><img class="tc-av" src="https://i.pravatar.cc/80?img=41" alt="Sophie"/><div><div class="tc-nm">Sophie &amp; Thomas</div><div class="tc-fr">Hamburg, Deutschland 🇩🇪</div></div></div></div>
+      </div>
+    </div>
+    <div class="ts-nav" id="tsN"><div class="ts-dot on"></div><div class="ts-dot"></div><div class="ts-dot"></div><div class="ts-dot"></div><div class="ts-dot"></div></div>
+  </div>
+</section>
+
+<!-- wave to CTA -->
+<div class="wave" style="background:#d0eaf5">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px">
+    <path d="M0,20 C360,60 720,0 1080,40 C1260,55 1380,15 1440,20 L1440,60 L0,60 Z" fill="#1a5f80"/>
+  </svg>
+</div>
+
+<!-- ========== CTA ========== -->
+<section id="cta">
+  <div class="sw">
+    <div class="cta-inner rv-s">
+      <div class="cta-badge">☀️ Temporada de verano · Mallorca</div>
+      <h2 class="cta-title">Tu aventura empieza<br/>en Cala Ratjada</h2>
+      <p class="cta-sub">Reserva ahora y asegura tu vehículo favorito. Las vacaciones perfectas te están esperando.</p>
+      <a href="#contact" class="btn btn-coral" style="font-size:1rem;padding:16px 44px">
+        🌅 Reservar ahora
+      </a>
+      <div class="cta-tels">
+        <div class="cta-tel">📞 <strong>+34 971 588 088</strong></div>
+        <div class="cta-tel">📱 <strong>+34 619 410 651</strong></div>
+      </div>
+    </div>
+  </div>
+  <div class="cta-wave">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style="height:70px">
+      <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="white"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ========== CONTACT ========== -->
+<section id="contact">
+  <div class="sw">
+    <div class="s-hd rv" style="margin-bottom:3rem">
+      <span class="s-tag">Contacto &amp; Reservas</span>
+      <h2 class="s-title">¿Hablamos?<br/><em>Confirmamos en horas.</em></h2>
+    </div>
+    <div class="ct-g">
+      <div class="rv-l">
+        <div class="ci"><div class="ci-ic">📞</div><div><div class="ci-l">Teléfono fijo</div><div class="ci-v"><a href="tel:+34971588088">+34 971 588 088</a></div></div></div>
+        <div class="ci"><div class="ci-ic">📱</div><div><div class="ci-l">Móvil / WhatsApp</div><div class="ci-v"><a href="tel:+34619410651">+34 619 410 651</a></div></div></div>
+        <div class="ci"><div class="ci-ic">🕐</div><div><div class="ci-l">Horario</div><div class="ci-v">Lunes – Domingo · 8:00–20:00h</div></div></div>
+        <div class="off-mini">
+          <h4>Nuestras 3 tiendas en Cala Ratjada</h4>
+          <ul>
+            <li>Avda. Cala Agulla, 86 — 07590 Cala Ratjada</li>
+            <li>Calle Nereida, 29 — 07590 Cala Ratjada</li>
+            <li>Avda. Cala Agulla, 61 — 07590 Cala Ratjada</li>
+          </ul>
+        </div>
+        <div class="soc-row">
+          <a href="https://www.facebook.com/Rent-a-Bike-Schulz-Junior-888365894623522/" target="_blank" rel="noopener" class="btn btn-sea" style="padding:10px 22px;font-size:.82rem">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a href="https://www.instagram.com/schulzrentabike/" target="_blank" rel="noopener" class="btn btn-outline" style="padding:10px 22px;font-size:.82rem">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>Instagram</a>
+        </div>
+      </div>
+
+      <div class="rv-r">
+        <form onsubmit="sendF(event)" style="background:linear-gradient(135deg,rgba(78,201,225,.06),rgba(42,127,165,.04));border:1.5px solid rgba(42,127,165,.1);border-radius:var(--r-xl);padding:2.5rem">
+          <div class="frow">
+            <div class="ff"><label class="fl">Nombre *</label><input class="fi" type="text" placeholder="Tu nombre" required/></div>
+            <div class="ff"><label class="fl">Email *</label><input class="fi" type="email" placeholder="tu@email.com" required/></div>
+          </div>
+          <div class="frow">
+            <div class="ff"><label class="fl">Fecha llegada</label><input class="fi" type="date"/></div>
+            <div class="ff"><label class="fl">Fecha salida</label><input class="fi" type="date"/></div>
+          </div>
+          <div class="ff">
+            <label class="fl">Vehículo</label>
+            <select class="fsl fi">
+              <option value="">Selecciona un vehículo</option>
+              <optgroup label="🚲 Bicicletas Ciudad">
+                <option>Hercules 7 Gang — 6€/día</option>
+                <option>Orbea Comfort 22 — 8€/día</option>
+              </optgroup>
+              <optgroup label="🚵 MTB">
+                <option>Trek Marlin 6 — 8€/día</option>
+                <option>Trek Marlin 7 — 10€/día</option>
+                <option>Trek Elite 8.5/8.6 — 12€/día</option>
+                <option>Trek X-Caliber 7 — 15€/día</option>
+                <option>Trek X-Caliber 8 — 20€/día</option>
+                <option>Orbea Occam (carrera) — 32€/día</option>
+              </optgroup>
+              <optgroup label="⚡ E-Bikes">
+                <option>Orbea Optima 400Wh — desde 15€/día</option>
+                <option>Orbea Optima 500Wh — desde 20€/día</option>
+                <option>Haibike Nine 2.0 / Orbea Keram 500Wh — desde 30€/día</option>
+              </optgroup>
+              <optgroup label="🛵 Scooters">
+                <option>Derbi Variant 50 — 30€/día</option>
+                <option>Aprilia SR 50 R — 40€/día</option>
+                <option>Aprilia SR Motard 125 — 35€/día</option>
+                <option>Piaggio Vespa Sprint 125 — desde 40€/día</option>
+                <option>Piaggio Vespa GTS 125 — desde 40€/día</option>
+                <option>Piaggio Medley 125 — desde 40€/día</option>
+                <option>Suzuki Burgman 200 — 40€/día</option>
+                <option>Piaggio Beverly 300 — 50€/día</option>
+                <option>Piaggio X10 350 — 50€/día</option>
+                <option>Suzuki Burgman 400 — 50€/día</option>
+                <option>Gilera Fuoco 500 — 50€/día</option>
+              </optgroup>
+              <optgroup label="🏍️ Motos">
+                <option>Yamaha MT 125 — 40€/día</option>
+                <option>Aprilia RS4 125 — 50€/día</option>
+                <option>Aprilia Tuono 125 — 60€/día</option>
+                <option>Kawasaki Z300 — 50€/día</option>
+                <option>Suzuki V-Strom XT 650 — 65€/día</option>
+                <option>Aprilia Shiver 750 — 90€/día</option>
+                <option>Aprilia Dorsoduro 750 — 90€/día</option>
+                <option>Moto Guzzi V7 Café Racer 750 — 120€/día</option>
+                <option>Aprilia Caponord 1200 — 120€/día</option>
+                <option>Aprilia RSV4 1000 — 200€/día</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="frow">
+            <div class="ff"><label class="fl">Nº vehículos</label><input class="fi" type="number" min="1" max="20" placeholder="1"/></div>
+            <div class="ff"><label class="fl">Teléfono</label><input class="fi" type="tel" placeholder="+34 ..."/></div>
+          </div>
+          <div class="ff"><label class="fl">Mensaje (opcional)</label><textarea class="fta" placeholder="Hotel, tallas de bicicleta, equipo para niños, preguntas..."></textarea></div>
+          <button type="submit" class="btn btn-coral" id="fBtn" style="width:100%;justify-content:center;font-size:.95rem;padding:15px">
+            🌊 Enviar consulta
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<div class="wave" style="background:white">
+  <svg viewBox="0 0 1440 50" preserveAspectRatio="none" style="height:50px">
+    <path d="M0,25 C480,50 960,0 1440,25 L1440,50 L0,50 Z" fill="#1a5f80"/>
+  </svg>
+</div>
+<footer>
+  <div class="ft-g">
+    <div class="ft-brand">
+      <div class="lg">Schulz<em>.</em>Rent A Bike</div>
+      <p>Empresa familiar Schulz &amp; Junior. Más de 35 años haciendo que las vacaciones en Mallorca sean perfectas.</p>
+      <div class="ft-soc">
+        <a href="https://www.facebook.com/Rent-a-Bike-Schulz-Junior-888365894623522/" target="_blank" rel="noopener" class="sb"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        <a href="https://www.instagram.com/schulzrentabike/" target="_blank" rel="noopener" class="sb"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+      </div>
+      <div class="lgs"><span class="lg2 on">ES</span><span class="lg2">EN</span><span class="lg2">DE</span></div>
+    </div>
+    <div class="ft-col">
+      <h4>Flota</h4>
+      <ul>
+        <li><a href="#fleet">🚲 Bicicletas Ciudad</a></li>
+        <li><a href="#fleet">🚵 MTB &amp; XC</a></li>
+        <li><a href="#fleet">⚡ E-Bikes</a></li>
+        <li><a href="#fleet">🏁 Bici Carrera</a></li>
+        <li><a href="#fleet">🛵 Scooters</a></li>
+        <li><a href="#fleet">🏍️ Motos</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="#why">Quiénes somos</a></li>
+        <li><a href="#offices">Nuestras tiendas</a></li>
+        <li><a href="#routes">Rutas de Mallorca</a></li>
+        <li><a href="#fleet">Tarifas 2024</a></li>
+        <li><a href="#contact">Contacto</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h4>Contacto</h4>
+      <ul>
+        <li><a href="tel:+34971588088">+34 971 588 088</a></li>
+        <li><a href="tel:+34619410651">+34 619 410 651</a></li>
+        <li><a href="https://www.schulzrentabike.com">schulzrentabike.com</a></li>
+        <li><a href="#">Aviso Legal</a></li>
+      </ul>
+      <p style="font-size:.76rem;color:rgba(255,255,255,.45);margin-top:1rem;line-height:1.6">Cala Ratjada, 07590<br/>Islas Baleares · España 🇪🇸</p>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <span>© 2024 Schulz Rent A Bike · schulzrentabike.com · Empresa familiar Schulz &amp; Junior</span>
+    <span>☀️ Cala Ratjada · Mallorca · Islas Baleares</span>
+  </div>
+</footer>
+
+<!-- ========== JS ========== -->
+<script>
+// CURSOR
+const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function L(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(L)})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='22px';cur.style.height='22px'});
+  el.addEventListener('mouseleave',()=>{cur.style.width='12px';cur.style.height='12px'});
+});
+
+// NAV scroll
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('s',scrollY>60));
+
+// MOBILE MENU
+const ham=document.getElementById('ham'),mob=document.getElementById('mob');
+let mo=false;
+ham.addEventListener('click',()=>{
+  mo=!mo;mob.classList.toggle('on',mo);
+  ham.children[0].style.transform=mo?'rotate(45deg) translate(5px,5px)':'';
+  ham.children[1].style.opacity=mo?'0':'1';
+  ham.children[2].style.transform=mo?'rotate(-45deg) translate(5px,-5px)':'';
+});
+function closeM(){mo=false;mob.classList.remove('on');ham.children[0].style.transform='';ham.children[1].style.opacity='1';ham.children[2].style.transform=''}
+
+// GSAP
+gsap.registerPlugin(ScrollTrigger);
+
+// Hero entrance
+const tl=gsap.timeline({defaults:{ease:'power4.out'}});
+tl.to('#hEy', {opacity:1,y:0,duration:.7,delay:.3})
+  .to('#hTit',{opacity:1,y:0,duration:.9},'-=.4')
+  .to('#hSub',{opacity:1,y:0,duration:.7},'-=.5')
+  .to('#hActs',{opacity:1,y:0,duration:.6},'-=.45')
+  .to('#hScr',{opacity:1,duration:.5},'-=.3')
+  .to('#hf1',{opacity:1,x:0,duration:.6},'-=.2')
+  .to('#hf2',{opacity:1,x:0,duration:.5},'-=.4')
+  .to('#hf3',{opacity:1,x:0,duration:.5},'-=.35');
+
+// Parallax hero background
+gsap.to('#hero .sun-orb',{y:60,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
+
+// Scroll reveals
+document.querySelectorAll('.rv').forEach(el=>gsap.to(el,{opacity:1,y:0,duration:.85,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 92%',toggleActions:'play none none none'}}));
+document.querySelectorAll('.rv-l').forEach(el=>gsap.to(el,{opacity:1,x:0,duration:.95,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'}}));
+document.querySelectorAll('.rv-r').forEach(el=>gsap.to(el,{opacity:1,x:0,duration:.95,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'}}));
+document.querySelectorAll('.rv-s').forEach(el=>gsap.to(el,{opacity:1,scale:1,duration:.9,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'}}));
+
+// Stagger cards
+gsap.utils.toArray('.vc').forEach((c,i)=>gsap.from(c,{opacity:0,y:40,duration:.65,delay:i*.05,ease:'power3.out',scrollTrigger:{trigger:'#fg',start:'top 85%',toggleActions:'play none none none'}}));
+gsap.utils.toArray('.wf').forEach((el,i)=>gsap.from(el,{opacity:0,x:30,duration:.55,delay:i*.08,ease:'power3.out',scrollTrigger:{trigger:'#why',start:'top 78%',toggleActions:'play none none none'}}));
+gsap.utils.toArray('.rc').forEach((c,i)=>gsap.from(c,{opacity:0,y:50,duration:.75,delay:i*.1,ease:'power3.out',scrollTrigger:{trigger:'#routes',start:'top 83%',toggleActions:'play none none none'}}));
+gsap.utils.toArray('.oc').forEach((c,i)=>gsap.from(c,{opacity:0,y:30,duration:.6,delay:i*.1,ease:'power3.out',scrollTrigger:{trigger:'#offices',start:'top 84%',toggleActions:'play none none none'}}));
+
+// TABS
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+    tab.classList.add('on');
+    const cat=tab.dataset.cat;
+    document.querySelectorAll('.vc').forEach(card=>{
+      const show=cat==='all'||card.dataset.cat===cat;
+      if(show){card.style.display='';gsap.to(card,{opacity:1,scale:1,duration:.3,ease:'power2.out'})}
+      else gsap.to(card,{opacity:0,scale:.92,duration:.25,ease:'power2.out',onComplete:()=>{card.style.display='none'}});
+    });
+  });
+});
+
+// TESTIMONIALS
+const tst=document.getElementById('tst'),tsD=document.querySelectorAll('.ts-dot');
+let tc=0;const CW=334;
+function goT(i){tc=i;gsap.to(tst,{x:-i*CW,duration:.65,ease:'power3.inOut'});tsD.forEach((d,j)=>d.classList.toggle('on',j===i))}
+tsD.forEach((d,i)=>d.addEventListener('click',()=>goT(i)));
+setInterval(()=>goT((tc+1)%tsD.length),5000);
+
+// FORM
+function sendF(e){
+  e.preventDefault();
+  const btn=document.getElementById('fBtn');
+  btn.textContent='✅ ¡Consulta enviada! Te contactamos pronto.';
+  btn.style.background='#2da867';btn.disabled=true;
+  setTimeout(()=>{btn.textContent='🌊 Enviar consulta';btn.style.background='';btn.disabled=false;e.target.reset()},4000);
+}
+</script>
+</body>
+</html>
